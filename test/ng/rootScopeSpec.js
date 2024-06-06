@@ -8,7 +8,7 @@ describe('Scope', function() {
   describe('$root', function() {
     it('should point to itself', inject(function($rootScope) {
       expect($rootScope.$root).toEqual($rootScope);
-      expect($rootScope.hasOwnProperty('$root')).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call($rootScope, '$root')).toBeTruthy();
     }));
 
 
@@ -21,7 +21,7 @@ describe('Scope', function() {
     it('should not have $root on children, but should inherit', inject(function($rootScope) {
       var child = $rootScope.$new();
       expect(child.$root).toEqual($rootScope);
-      expect(child.hasOwnProperty('$root')).toBeFalsy();
+      expect(Object.prototype.hasOwnProperty.call(child, '$root')).toBeFalsy();
     }));
 
   });

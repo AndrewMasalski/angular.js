@@ -60,7 +60,7 @@ var validateMessage = function(message) {
   var scope = match[3];
   var subject = match[4];
 
-  if (!TYPES.hasOwnProperty(type)) {
+  if (!Object.prototype.hasOwnProperty.call(TYPES, type)) {
     error('"%s" is not allowed type !', type);
     return false;
   }

@@ -500,11 +500,11 @@ function qFactory(nextTick, exceptionHandler) {
     forEach(promises, function(promise, key) {
       counter++;
       ref(promise).then(function(value) {
-        if (results.hasOwnProperty(key)) return;
+        if (Object.prototype.hasOwnProperty.call(results, key)) return;
         results[key] = value;
         if (!(--counter)) deferred.resolve(results);
       }, function(reason) {
-        if (results.hasOwnProperty(key)) return;
+        if (Object.prototype.hasOwnProperty.call(results, key)) return;
         deferred.reject(reason);
       });
     });

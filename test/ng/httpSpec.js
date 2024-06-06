@@ -800,11 +800,11 @@ describe('$http', function() {
 
       it('should not send Content-Type header if request data/body is undefined', function() {
         $httpBackend.expect('POST', '/url', undefined, function(headers) {
-          return !headers.hasOwnProperty('Content-Type');
+          return !Object.prototype.hasOwnProperty.call(headers, 'Content-Type');
         }).respond('');
 
         $httpBackend.expect('POST', '/url2', undefined, function(headers) {
-          return !headers.hasOwnProperty('content-type');
+          return !Object.prototype.hasOwnProperty.call(headers, 'content-type');
         }).respond('');
 
         $http({url: '/url', method: 'POST'});

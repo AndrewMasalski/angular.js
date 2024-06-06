@@ -282,7 +282,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
             // if object, extract keys, sort them and use to determine order of iteration over obj props
             collectionKeys = [];
             for (key in collection) {
-              if (collection.hasOwnProperty(key) && key.charAt(0) != '$') {
+              if (Object.prototype.hasOwnProperty.call(collection, key) && key.charAt(0) != '$') {
                 collectionKeys.push(key);
               }
             }
@@ -298,12 +298,12 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
            value = collection[key];
            trackById = trackByIdFn(key, value, index);
            assertNotHasOwnProperty(trackById, '`track by` id');
-           if(lastBlockMap.hasOwnProperty(trackById)) {
+           if(Object.prototype.hasOwnProperty.call(lastBlockMap, trackById)) {
              block = lastBlockMap[trackById];
              delete lastBlockMap[trackById];
              nextBlockMap[trackById] = block;
              nextBlockOrder[index] = block;
-           } else if (nextBlockMap.hasOwnProperty(trackById)) {
+           } else if (Object.prototype.hasOwnProperty.call(nextBlockMap, trackById)) {
              // restore lastBlockMap
              forEach(nextBlockOrder, function(block) {
                if (block && block.scope) lastBlockMap[block.id] = block;
@@ -321,7 +321,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
           // remove existing items
           for (key in lastBlockMap) {
             // lastBlockMap is our own object so we don't need to use special hasOwnPropertyFn
-            if (lastBlockMap.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(lastBlockMap, key)) {
               block = lastBlockMap[key];
               elementsToRemove = getBlockElements(block.clone);
               $animate.leave(elementsToRemove);
