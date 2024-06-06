@@ -539,7 +539,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     assertNotHasOwnProperty(name, 'directive');
     if (isString(name)) {
       assertArg(directiveFactory, 'directiveFactory');
-      if (!hasDirectives.hasOwnProperty(name)) {
+      if (!Object.prototype.hasOwnProperty.call(hasDirectives, name)) {
         hasDirectives[name] = [];
         $provide.factory(name + Suffix, ['$injector', '$exceptionHandler',
           function($injector, $exceptionHandler) {
@@ -1599,7 +1599,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
                           endAttrName) {
       if (name === ignoreDirective) return null;
       var match = null;
-      if (hasDirectives.hasOwnProperty(name)) {
+      if (Object.prototype.hasOwnProperty.call(hasDirectives, name)) {
         for(var directive, directives = $injector.get(name + Suffix),
             i = 0, ii = directives.length; i<ii; i++) {
           try {
@@ -1653,7 +1653,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           // `dst` will never contain hasOwnProperty as DOM parser won't let it.
           // You will get an "InvalidCharacterError: DOM Exception 5" error if you
           // have an attribute like "has-own-property" or "data-has-own-property", etc.
-        } else if (key.charAt(0) != '$' && !dst.hasOwnProperty(key)) {
+        } else if (key.charAt(0) != '$' && !Object.prototype.hasOwnProperty.call(dst, key)) {
           dst[key] = value;
           dstAttr[key] = srcAttr[key];
         }

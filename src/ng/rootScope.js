@@ -471,9 +471,9 @@ function $RootScopeProvider(){
             // copy the items to oldValue and look for changes.
             newLength = 0;
             for (key in newValue) {
-              if (newValue.hasOwnProperty(key)) {
+              if (Object.prototype.hasOwnProperty.call(newValue, key)) {
                 newLength++;
-                if (oldValue.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(oldValue, key)) {
                   if (oldValue[key] !== newValue[key]) {
                     changeDetected++;
                     oldValue[key] = newValue[key];
@@ -489,7 +489,7 @@ function $RootScopeProvider(){
               // we used to have more keys, need to find them and destroy them.
               changeDetected++;
               for(key in oldValue) {
-                if (oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(oldValue, key) && !Object.prototype.hasOwnProperty.call(newValue, key)) {
                   oldLength--;
                   delete oldValue[key];
                 }

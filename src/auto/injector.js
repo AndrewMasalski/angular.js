@@ -722,7 +722,7 @@ function createInjector(modulesToLoad) {
   function createInternalInjector(cache, factory) {
 
     function getService(serviceName) {
-      if (cache.hasOwnProperty(serviceName)) {
+      if (Object.prototype.hasOwnProperty.call(cache, serviceName)) {
         if (cache[serviceName] === INSTANTIATING) {
           throw $injectorMinErr('cdep', 'Circular dependency found: {0}', path.join(' <- '));
         }
@@ -756,7 +756,7 @@ function createInjector(modulesToLoad) {
                   'Incorrect injection token! Expected service name as string, got {0}', key);
         }
         args.push(
-          locals && locals.hasOwnProperty(key)
+          locals && Object.prototype.hasOwnProperty.call(locals, key)
           ? locals[key]
           : getService(key)
         );
@@ -790,7 +790,7 @@ function createInjector(modulesToLoad) {
       get: getService,
       annotate: annotate,
       has: function(name) {
-        return providerCache.hasOwnProperty(name + providerSuffix) || cache.hasOwnProperty(name);
+        return Object.prototype.hasOwnProperty.call(providerCache, name + providerSuffix) || Object.prototype.hasOwnProperty.call(cache, name);
       }
     };
   }

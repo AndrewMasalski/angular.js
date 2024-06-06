@@ -284,7 +284,7 @@ function $SceDelegateProvider() {
      * where Angular expects a $sce.trustAs() return value.
      */
     function trustAs(type, trustedValue) {
-      var Constructor = (byType.hasOwnProperty(type) ? byType[type] : null);
+      var Constructor = (Object.prototype.hasOwnProperty.call(byType, type) ? byType[type] : null);
       if (!Constructor) {
         throw $sceMinErr('icontext',
             'Attempted to trust a value in invalid context. Context: {0}; Value: {1}',
@@ -348,7 +348,7 @@ function $SceDelegateProvider() {
       if (maybeTrusted === null || maybeTrusted === undefined || maybeTrusted === '') {
         return maybeTrusted;
       }
-      var constructor = (byType.hasOwnProperty(type) ? byType[type] : null);
+      var constructor = (Object.prototype.hasOwnProperty.call(byType, type) ? byType[type] : null);
       if (constructor && maybeTrusted instanceof constructor) {
         return maybeTrusted.$$unwrapTrustedValue();
       }

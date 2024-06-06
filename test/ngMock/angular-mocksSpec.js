@@ -706,7 +706,7 @@ describe('ngMock', function() {
     function keys(obj) {
       var keys = [];
       for(var key in obj) {
-        if (obj.hasOwnProperty(key)) keys.push(key);
+        if (Object.prototype.hasOwnProperty.call(obj, key)) keys.push(key);
       }
       return keys.sort();
     }

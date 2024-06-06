@@ -502,7 +502,7 @@ describe('ngView', function() {
       expect(div.parent()[0].nodeName.toUpperCase()).toBeOneOf('NG:VIEW', 'VIEW');
 
       expect(div.scope()).toBe($route.current.scope);
-      expect(div.scope().hasOwnProperty('state')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(div.scope(), 'state')).toBe(true);
       expect(div.scope().state).toEqual('WORKS');
 
       expect(div.controller()).toBe($route.current.scope.ctrl);

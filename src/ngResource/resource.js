@@ -35,7 +35,7 @@ function shallowClearAndCopy(src, dst) {
   });
 
   for (var key in src) {
-    if (src.hasOwnProperty(key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
+    if (Object.prototype.hasOwnProperty.call(src, key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
       dst[key] = src[key];
     }
   }
@@ -398,7 +398,7 @@ angular.module('ngResource', ['ng']).
 
         params = params || {};
         forEach(self.urlParams, function(_, urlParam){
-          val = params.hasOwnProperty(urlParam) ? params[urlParam] : self.defaults[urlParam];
+          val = Object.prototype.hasOwnProperty.call(params, urlParam) ? params[urlParam] : self.defaults[urlParam];
           if (angular.isDefined(val) && val !== null) {
             encodedVal = encodeUriSegment(val);
             url = url.replace(new RegExp(":" + urlParam + "(\\W|$)", "g"), function(match, p1) {

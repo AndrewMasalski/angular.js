@@ -307,7 +307,7 @@ Lexer.prototype = {
     };
 
     // OPERATORS is our own object so we don't need to use special hasOwnPropertyFn
-    if (OPERATORS.hasOwnProperty(ident)) {
+    if (Object.prototype.hasOwnProperty.call(OPERATORS, ident)) {
       token.fn = OPERATORS[ident];
       token.json = OPERATORS[ident];
     } else {
@@ -901,7 +901,7 @@ function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
 
   return !options.unwrapPromises
       ? function cspSafeGetter(scope, locals) {
-          var pathVal = (locals && locals.hasOwnProperty(key0)) ? locals : scope;
+          var pathVal = (locals && Object.prototype.hasOwnProperty.call(locals, key0)) ? locals : scope;
 
           if (pathVal == null) return pathVal;
           pathVal = pathVal[key0];
@@ -925,7 +925,7 @@ function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
           return pathVal;
         }
       : function cspSafePromiseEnabledGetter(scope, locals) {
-          var pathVal = (locals && locals.hasOwnProperty(key0)) ? locals : scope,
+          var pathVal = (locals && Object.prototype.hasOwnProperty.call(locals, key0)) ? locals : scope,
               promise;
 
           if (pathVal == null) return pathVal;
@@ -1001,7 +1001,7 @@ function simpleGetterFn1(key0, fullExp) {
 
   return function simpleGetterFn1(scope, locals) {
     if (scope == null) return undefined;
-    return ((locals && locals.hasOwnProperty(key0)) ? locals : scope)[key0];
+    return ((locals && Object.prototype.hasOwnProperty.call(locals, key0)) ? locals : scope)[key0];
   };
 }
 
@@ -1011,7 +1011,7 @@ function simpleGetterFn2(key0, key1, fullExp) {
 
   return function simpleGetterFn2(scope, locals) {
     if (scope == null) return undefined;
-    scope = ((locals && locals.hasOwnProperty(key0)) ? locals : scope)[key0];
+    scope = ((locals && Object.prototype.hasOwnProperty.call(locals, key0)) ? locals : scope)[key0];
     return scope == null ? undefined : scope[key1];
   };
 }
@@ -1020,7 +1020,7 @@ function getterFn(path, options, fullExp) {
   // Check whether the cache has this getter already.
   // We can use hasOwnProperty directly on the cache because we ensure,
   // see below, that the cache never stores a path called 'hasOwnProperty'
-  if (getterFnCache.hasOwnProperty(path)) {
+  if (Object.prototype.hasOwnProperty.call(getterFnCache, path)) {
     return getterFnCache[path];
   }
 
@@ -1239,7 +1239,7 @@ function $ParseProvider() {
     $parseOptions.csp = $sniffer.csp;
 
     promiseWarning = function promiseWarningFn(fullExp) {
-      if (!$parseOptions.logPromiseWarnings || promiseWarningCache.hasOwnProperty(fullExp)) return;
+      if (!$parseOptions.logPromiseWarnings || Object.prototype.hasOwnProperty.call(promiseWarningCache, fullExp)) return;
       promiseWarningCache[fullExp] = true;
       $log.warn('[$parse] Promise found in the expression `' + fullExp + '`. ' +
           'Automatic unwrapping of promises in Angular expressions is deprecated.');
@@ -1251,7 +1251,7 @@ function $ParseProvider() {
       switch (typeof exp) {
         case 'string':
 
-          if (cache.hasOwnProperty(exp)) {
+          if (Object.prototype.hasOwnProperty.call(cache, exp)) {
             return cache[exp];
           }
 

@@ -236,7 +236,7 @@ function forEach(obj, iterator, context) {
       for (key in obj) {
         // Need to check if hasOwnProperty exists,
         // as on IE8 the result of querySelectorAll is an object without a hasOwnProperty function
-        if (key != 'prototype' && key != 'length' && key != 'name' && (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
+        if (key != 'prototype' && key != 'length' && key != 'name' && (!obj.hasOwnProperty || Object.prototype.hasOwnProperty.call(obj, key))) {
           iterator.call(context, obj[key], key);
         }
       }
@@ -247,7 +247,7 @@ function forEach(obj, iterator, context) {
         iterator.call(context, obj[key], key);
     } else {
       for (key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
           iterator.call(context, obj[key], key);
         }
       }
@@ -259,7 +259,7 @@ function forEach(obj, iterator, context) {
 function sortedKeys(obj) {
   var keys = [];
   for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       keys.push(key);
     }
   }
@@ -663,7 +663,7 @@ function size(obj, ownPropsOnly) {
     return obj.length;
   } else if (isObject(obj)){
     for (key in obj)
-      if (!ownPropsOnly || obj.hasOwnProperty(key))
+      if (!ownPropsOnly || Object.prototype.hasOwnProperty.call(obj, key))
         count++;
   }
 
@@ -810,7 +810,7 @@ function shallowCopy(src, dst) {
   for(var key in src) {
     // shallowCopy is only ever called by $compile nodeLinkFn, which has control over src
     // so we don't need to worry about using our custom hasOwnProperty here
-    if (src.hasOwnProperty(key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
+    if (Object.prototype.hasOwnProperty.call(src, key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
       dst[key] = src[key];
     }
   }
@@ -876,7 +876,7 @@ function equals(o1, o2) {
           keySet[key] = true;
         }
         for(key in o2) {
-          if (!keySet.hasOwnProperty(key) &&
+          if (!Object.prototype.hasOwnProperty.call(keySet, key) &&
               key.charAt(0) !== '$' &&
               o2[key] !== undefined &&
               !isFunction(o2[key])) return false;
